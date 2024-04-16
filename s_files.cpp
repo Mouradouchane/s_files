@@ -38,11 +38,11 @@ file s_files::read_from_file(
 }
 
 bool s_files::write_to_file(
-    std::string const& file_path, void* buffer , uint32_t size, bool append
+    std::string const& file_path, void* buffer, uint32_t size, bool append
 ){
     
     // try to open file
-    std::FILE* handle = nullptr; 
+    std::FILE* handle = nullptr;
     handle = fopen(file_path.c_str() , (append ? "a" : "w") );
 
     // try to write to file
@@ -60,5 +60,43 @@ bool s_files::write_to_file(
     return false;
 }
 
-	
+bool s_files::write_to_file(
+    std::FILE* file_pointer, void* buffer, uint32_t size, bool append
+){
+    
+    // try to write to file
+    if(file_pointer != nullptr) {
+        size_t write_result = NULL;
+        write_result = fwrite(buffer , 1 , size , file_pointer);
+        
+        return (write_result != NULL);
+    }
+    
+    return false;
+}
+
+
+std::FILE* s_files::open_file(std::string const& file_path , std::string const& permission){
+     
+    // try to open file
+    std::FILE* handle = nullptr; 
+    handle = fopen(file_path.c_str() , permission.c_str());
+
+    return handle;
+}
+
+std::FILE* s_files::create_file(std::string const& file_path ){
+     
+    // try to open file
+    std::FILE* handle = nullptr; 
+    handle = fopen(file_path.c_str() , "w");
+
+    return handle;
+}
+
+bool s_files::delete_file(std::string const& file_path){
+    // int remove(const char *filename)
+   return (remove(file_path.c_str()) == 0);
+}
+
 #endif

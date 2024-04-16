@@ -3,3 +3,7 @@
 main.cpp
 **.txt
 **.sln
+**.o
+**.obj
+**.exe
+Makefile
